@@ -2,21 +2,23 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'pry'
 
-# @@secret_number = rand(100)
-@@secret_number = 20
+@@secret_number = rand(100)
+# @@secret_number = 20    #test data
 guess = nil
 @@number_of_guesses = 5
 
 
 get '/' do
   guess = params["guess"]
+  @cheat = params["cheat"] || false
+  # binding.pry
   local_message = check_guess(guess, @@secret_number)
   erb :index, locals: {number: @@secret_number, message: local_message, background: @background}
   end
 
   def generate_number
-    @@secret_number = # rand(100)
-    @@secret_number = 20
+    @@secret_number = rand(100)
+    # @@secret_number = 20   #test data
   end
 
   def lose?
@@ -24,11 +26,14 @@ get '/' do
       generate_number
       @@number_of_guesses = 5
       @background = "rgb(158, 103, 163)"
-      return "You lose. A new number has been generated"
+      result =  "\nYou lose. A new number has been generated"
     else
-      return "Remaining guesses #{@@number_of_guesses}"
+      result =  "\nRemaining guesses #{@@number_of_guesses}"
     end
-
+    if @cheat
+      result = result + "\nThe secret number is #{@@secret_number}"
+    end
+    result
   end
 
   def check_guess(guess_string, secret_number)
@@ -65,6 +70,6 @@ get '/' do
       generate_number
       @@number_of_guesses = 5
       @background = "rgb(96, 242, 106)"
-      return "You win! The secret number is #{secret}"
+      return "\nYou win! The secret number is #{secret}"
     end
   end
