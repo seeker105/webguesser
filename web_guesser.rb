@@ -25,7 +25,7 @@ get '/' do
     if @@number_of_guesses == 0
       generate_number
       @@number_of_guesses = 5
-      @background = "rgb(158, 103, 163)"
+      @background = "rgb(158, 103, 163)"   # purple
       result =  "\nYou lose. A new number has been generated"
     else
       result =  "\nRemaining guesses #{@@number_of_guesses}"
@@ -45,12 +45,10 @@ get '/' do
         @background = "red"
         @@number_of_guesses -= 1
         return "Way Too High\n#{lose?}"
-        # bright red
       else
-        @background = "rgb(233, 164, 164)"
+        @background = "rgb(233, 164, 164)" # light red
         @@number_of_guesses -= 1
         return "Too High\n#{lose?}"
-        # light red
       end
     elsif guess < @@secret_number
       if (@@secret_number - guess) > 5
@@ -59,17 +57,15 @@ get '/' do
         return "Way Too Low\n#{lose?}"
         # bright red
       else
-        @background = "rgb(233, 164, 164)"
+        @background = "rgb(233, 164, 164)"  # light red
         @@number_of_guesses -= 1
         return "Too Low\n#{lose?}"
-        # light red
-        # binding.pry
       end
     else
       secret = @@secret_number
       generate_number
       @@number_of_guesses = 5
-      @background = "rgb(96, 242, 106)"
+      @background = "rgb(96, 242, 106)"  # green
       return "\nYou win! The secret number is #{secret}"
     end
   end
